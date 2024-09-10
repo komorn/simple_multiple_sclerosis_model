@@ -23,6 +23,11 @@ params1= (
     r = 1.5, b = 0.25, a = 1.13, c = 0.2, d = 0.01, k =0.1
 )
 
+# params extreme
+params_ex = (
+    r = 1, b = 1, a = 1, c = 1, d = 0.1, k =0.1
+)
+
 # original initial values used in the model
 inits1 = (x = 0.4, y = 0.3, v = 0.1)
 
@@ -60,6 +65,10 @@ display(Plots.plot([xs_demo, ys_demo, vs_demo], xlabel="time", title="Number of 
 
 Plots.savefig("rrms_project_plots/basic_inits1.png")
 
+# run simulation with extreme parameters
+xs_ex, ys_ex, vs_ex = simulate(params_ex, inits1, 200)
+display(Plots.plot([xs_ex, ys_ex, vs_ex], xlabel="time", title="Number of different cell types in time", label=["healthy brain cells - x(t)" "infected brain cells - y(t)" "harmful effector cells - v(t)"], linewidth=3))
+Plots.savefig("ms_model/rrms_project_plots/extreme_params_inits1.png")
 
 params2= (
     r = 0.5, b = 0.28, a = 0.13, c = 0.1, d = 0.01, k =0.1
