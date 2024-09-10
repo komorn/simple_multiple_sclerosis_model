@@ -88,14 +88,37 @@ display(Plots.plot([xs_2, ys_2, vs_2], xlabel="time", title="RRMS ", label=["hea
 
 
 Plots.savefig("rrms_project_plots/oscillations_inits3.png")
-# Plots.plot!(ts_demo, es_demo)
+
 
 b_values
 
-# xs_3, ys_3, vs_3, b_values = sim_b( 0.4, 0.3, 0.1)
-# display(Plots.plot(b_values, [xs_3 ys_3 vs_3], xlabel="b", ylabel="Final values", 
-#      label=["Final healthy brain cells (x)" "Final infected brain cells (y)" "Final harmful effector cells (v)"],
-#      title="Effect of varying parameter b on final states", linewidth=3))
-     
-     
-# Plots.savefig("rrms_project_plots/b_varying.png")
+
+function initialize(x0, y0, v0)
+    x = x0
+    y = y0
+    v = v0
+    return x, y, v
+end
+
+plot_counter = 1
+for x0 in 0:0.1:1
+    for y0 in 0:0.1:1
+        for v0 in 0:0.1:1
+            if x0 + y0 + v0 == 0.7
+                x, y, v = initialize(x0, y0, v0)
+                inits = (x = x , y = y, v = v)
+                xs_ex, ys_ex, vs_ex = simulate(params1, inits, 200)
+                # display(Plots.plot([xs_ex, ys_ex, vs_ex], xlabel="time", title="Number of different cell types in time", label=["healthy brain cells - x(t)" "infected brain cells - y(t)" "harmful effector cells - v(t)"], linewidth=3))
+                p = Plots.plot([xs_ex, ys_ex, vs_ex],
+                    xlabel="time",
+                    title="Number of different cell types in time",
+                    label=["healthy brain cells - x(t)" "infected brain cells - y(t)" "harmful effector cells - v(t)"],
+                    linewidth=3
+                )
+                display(p)
+                Plots.savefig("ms_model/rrms_project_plots/initial_values_tests/plot_$(plot_counter).png")
+                plot_counter += 1
+            end
+        end
+    end
+end
